@@ -1,12 +1,14 @@
 import React from 'react'
 
 type Props = {
-  children : React.ReactNode
+  children: React.ReactNode
 }
 
-const layout = ({children}: Props) => {
+const layout = ({ children }: Props) => {
   return (
-    <div className='container h-screen flex justify-center items-center'>{children}</div>
+    <div className="contsiner h-screen flex justify-center items-center">
+      {children}
+    </div>
   )
 }
 
