@@ -6,6 +6,7 @@ import { ClerkProvider } from '@clerk/nextjs'
 import './globals.css'
 import { ThemeProvider } from '@/components/theme'
 import { Toaster } from 'sonner'
+import ReactQueryProvider from '@/react-query'
 
 const manrope = DM_Sans({ subsets: ['latin'] })
 
@@ -28,8 +29,9 @@ export default function RootLayout({
             defaultTheme="dark"
             disableTransitionOnChange
           >
-            
+            <ReactQueryProvider>
                 {children}
+                </ReactQueryProvider> 
                 <Toaster />
           </ThemeProvider>
         </body>
