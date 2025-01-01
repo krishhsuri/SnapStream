@@ -33,8 +33,8 @@ export const useSearch = (key:string, type: "USERS" ) =>
   }, [query])
   const { refetch, isFetching } = userQueryData([key, debounce], async ({ queryKey }) => {
     if (type === "USERS") {
-      const users = await searchUsers(queryKey[1] as string);
-      if(users.status===200) setOnUsers(users.data)
+      const workspace = await searchUsers(queryKey[1] as string);
+      if(workspace.status===200) setOnUsers(workspace.data)
       
     }
   },
