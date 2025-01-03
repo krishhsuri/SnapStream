@@ -1,7 +1,10 @@
 'use server'
 
-import { client } from "@/lib/prisma"
-import { currentUser } from "@clerk/nextjs/server"
+import { client } from '@/lib/prisma'
+import { currentUser } from '@clerk/nextjs/server'
+import { createClient, OAuthStrategy } from '@wix/sdk'
+import { items } from '@wix/data'
+import axios from 'axios'
 
 export const verifyAccessToWorkspace = async (workspaceId: string) => {
   try {
@@ -146,6 +149,203 @@ export const getWorkSpaces = async () => {
 
     if (workspaces) {
       return { status: 200, data: workspaces }
+    }
+  } catch (error) {
+    return { status: 400 }
+  }
+}
+
+export const createWorkspace = async (name: string) => {
+  try {
+    const user = await currentUser()
+    if (!user) return { status: 404 }
+    const authorized = await client.user.findUnique({
+      where: {
+        clerkid: user.id,
+      },
+      select: {
+        subscription: {
+          select: {
+            plan: true,
+          },
+        },
+      },
+    })
+
+    if (authorized?.subscription?.plan === 'PRO') {
+      const workspace = await client.user.update({
+        where: {
+          clerkid: user.id,
+        },
+        data: {
+          workspace: {
+            create: {
+              name,
+              type: 'PUBLIC',
+            },
+          },
+        },
+      })
+      if (workspace) {
+        return { status: 201, data: 'Workspace Created' }
+      }
+    }
+    return {
+      status: 401,
+      data: 'You are not authorized to create a workspace.',
+    }
+  } catch (error) {
+    return { status: 400 }
+  }
+}
+
+export const renameFolders = async (folderId: string, name: string) => {
+  try {
+    const folder = await client.folder.update({
+      where: {
+        id: folderId,
+      },
+      data: {
+        name,
+      },
+    })
+    if (folder) {
+      return { status: 200, data: 'Folder Renamed' }
+    }
+    return { status: 400, data: 'Folder does not exist' }
+  } catch (error) {
+    return { status: 500, data: 'Opps! something went wrong' }
+  }
+}
+
+export const createFolder = async (workspaceId: string) => {
+  try {
+    const isNewFolder = await client.workSpace.update({
+      where: {
+        id: workspaceId,
+      },
+      data: {
+        folders: {
+          create: { name: 'Untitled' },
+        },
+      },
+    })
+    if (isNewFolder) {
+      return { status: 200, message: 'New Folder Created' }
+    }
+  } catch (error) {
+    return { status: 500, message: 'Oppse something went wrong' }
+  }
+}
+
+export const getFolderInfo = async (folderId: string) => {
+  try {
+    const folder = await client.folder.findUnique({
+      where: {
+        id: folderId,
+      },
+      select: {
+        name: true,
+        _count: {
+          select: {
+            videos: true,
+          },
+        },
+      },
+    })
+    if (folder)
+      return {
+        status: 200,
+        data: folder,
+      }
+    return {
+      status: 400,
+      data: null,
+    }
+  } catch (error) {
+    return {
+      status: 500,
+      data: null,
+    }
+  }
+}
+
+export const moveVideoLocation = async (
+  videoId: string,
+  workSpaceId: string,
+  folderId: string
+) => {
+  try {
+    const location = await client.video.update({
+      where: {
+        id: videoId,
+      },
+      data: {
+        folderId: folderId || null,
+        workSpaceId,
+      },
+    })
+    if (location) return { status: 200, data: 'folder changed successfully' }
+    return { status: 404, data: 'workspace/folder not found' }
+  } catch (error) {
+    return { status: 500, data: 'Oops! something went wrong' }
+  }
+}
+
+export const getPreviewVideo = async (videoId: string) => {
+  try {
+    const user = await currentUser()
+    if (!user) return { status: 404 }
+    const video = await client.video.findUnique({
+      where: {
+        id: videoId,
+      },
+      select: {
+        title: true,
+        createdAt: true,
+        source: true,
+        description: true,
+        processing: true,
+        views: true,
+        summery: true,
+        User: {
+          select: {
+            firstname: true,
+            lastname: true,
+            image: true,
+            clerkid: true,
+            trial: true,
+            subscription: {
+              select: {
+                plan: true,
+              },
+            },
+          },
+        },
+      },
+    })
+    if (video) {
+      return {
+        status: 200,
+        data: video,
+        author: user.id === video.User?.clerkid ? true : false,
+      }
+    }
+
+    return { status: 404 }
+  } catch (error) {
+    return { status: 400 }
+  }
+}
+
+export const howToPost = async () => {
+  try {
+    const response = await axios.get(process.env.CLOUD_WAYS_POST as string)
+    if (response.data) {
+      return {
+        title: response.data[0].title.rendered,
+        content: response.data[0].content.rendered,
+      }
     }
   } catch (error) {
     return { status: 400 }
