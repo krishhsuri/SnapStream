@@ -5,13 +5,14 @@ import { ClerkProvider } from '@clerk/nextjs'
 
 import './globals.css'
 import { ThemeProvider } from '@/components/theme'
-import { Toaster } from 'sonner'
 import ReactQueryProvider from '@/react-query'
+import { ReduxProvider } from '@/redux/provider'
+import { Toaster } from 'sonner'
 
 const manrope = DM_Sans({ subsets: ['latin'] })
 
 export const metadata: Metadata = {
-  title: 'SnapStream',
+  title: 'Opal',
   description: 'Share AI powered videos with your friends.',
 }
 
@@ -29,10 +30,12 @@ export default function RootLayout({
             defaultTheme="dark"
             disableTransitionOnChange
           >
-            <ReactQueryProvider>
+            <ReduxProvider>
+              <ReactQueryProvider>
                 {children}
-                </ReactQueryProvider> 
                 <Toaster />
+              </ReactQueryProvider>
+            </ReduxProvider>
           </ThemeProvider>
         </body>
       </html>

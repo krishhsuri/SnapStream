@@ -4,12 +4,12 @@ import { cn } from '@/lib/utils'
 import { ArrowRight } from 'lucide-react'
 import React, { useEffect, useState } from 'react'
 import Folder from './folder'
-
 import { getWorkspaceFolders } from '@/actions/workspace'
 import { useMutationDataState } from '@/hooks/useMutationData'
+import Videos from '../videos'
 import { useDispatch } from 'react-redux'
+import { FOLDERS } from '@/redux/slices/folders'
 import { userQueryData } from '@/hooks/useQuerydata'
-
 
 type Props = {
   workspaceId: string
@@ -30,6 +30,7 @@ export type FoldersProps = {
 }
 
 const Folders = ({ workspaceId }: Props) => {
+  const dispatch = useDispatch()
   //get folders
   const { data, isFetched } = userQueryData(['workspace-folders'], () =>
     getWorkspaceFolders(workspaceId)
@@ -42,6 +43,9 @@ const Folders = ({ workspaceId }: Props) => {
   // if (isFetched && folders) {
   // }
 
+  if (isFetched && folders) {
+    dispatch(FOLDERS({ folders: folders }))
+  }
 
   return (
     <div
@@ -86,6 +90,11 @@ const Folders = ({ workspaceId }: Props) => {
           </>
         )}
       </div>
+      <Videos
+        workspaceId={workspaceId}
+        folderId={workspaceId}
+        videosKey="user-videos"
+      />
     </div>
   )
 }
