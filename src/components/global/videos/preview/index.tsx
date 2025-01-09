@@ -7,13 +7,13 @@ import CopyLink from '../copy-link'
 import RichLink from '../rich-link'
 import { truncateString } from '@/lib/utils'
 import { Download } from 'lucide-react'
-import TabMenu from '../../tabs'
-import AiTools from '../../ai-tools'
-import VideoTranscript from '../../video-transcript'
 import { TabsContent } from '@/components/ui/tabs'
-import Activities from '../../activities'
 import EditVideo from '../edit'
 import { userQueryData } from '@/hooks/useQuerydata'
+import AiTools from '../../ai-tools'
+import VideoTranscript from '../../video-transcript'
+import TabMenu from '../../tabs'
+import Activities from '../../activities'
 
 type Props = {
   videoId: string
