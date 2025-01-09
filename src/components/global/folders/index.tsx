@@ -40,12 +40,9 @@ const Folders = ({ workspaceId }: Props) => {
 
   const { status, data: folders } = data as FoldersProps
 
-  // if (isFetched && folders) {
-  // }
-
   if (isFetched && folders) {
     dispatch(FOLDERS({ folders: folders }))
-  }
+   }
 
   return (
     <div
