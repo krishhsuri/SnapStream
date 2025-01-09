@@ -30,6 +30,7 @@ import { useDispatch } from 'react-redux'
 import { WORKSPACES } from '@/redux/slices/workspaces'
 import { userQueryData } from '@/hooks/useQuerydata'
 import Modal from '@/components/modal'
+import PaymentButton from '../payment-button/payment-button'
 type Props = {
   activeWorkspaceId: string
 }
@@ -202,6 +203,7 @@ const Sidebar = ({ activeWorkspaceId }: Props) => {
         <GlobalCard
           title="Upgrade to Pro"
           description=" Unlock AI features like transcription, AI summary, and more."
+          footer={<PaymentButton />}
         />
       )}
     </div>
