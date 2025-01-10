@@ -2,12 +2,11 @@
 import { getWorkSpaces } from '@/actions/workspace'
 
 import React from 'react'
+import Modal from '../../modal'
 import { Button } from '@/components/ui/button'
 import FolderPlusDuotine from '@/components/icons/folder-plus-duotone'
-
-import { userQueryData } from '@/hooks/useQuerydata'
-import Modal from '@/components/modal'
 import WorkspaceForm from '@/components/forms/workspace-form'
+import { userQueryData } from '@/hooks/useQuerydata'
 
 type Props = {}
 
