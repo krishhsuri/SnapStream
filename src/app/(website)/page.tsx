@@ -1,8 +1,5 @@
-import Image from "next/image";
+import VoiceFlowAgent from '@/components/global/voiceflow'
 
 export default function Home() {
-  return (
-      <main>Page
-      </main>
-  )
+  return <main>{/* <VoiceFlowAgent /> */}</main>
 }
