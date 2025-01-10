@@ -6,14 +6,14 @@ export default function Home() {
     <main className="bg-black text-white font-sans">
       {/* Hero Section */}
       <section className="flex flex-col items-center justify-center h-screen text-center px-6">
-        <h1 className="text-5xl md:text-6xl font-extrabold mb-4">
+        <h1 className="text-5xl md:text-6xl font-bold mb-4">
           One video is worth a thousand words
         </h1>
         <p className="text-lg md:text-2xl mb-8">
           Easily record and share AI-powered video messages with your teammates and customers to supercharge productivity.
         </p>
         <Link href="/auth/sign-up">
-          <p className="bg-[#7320DD] text-lg font-semibold px-6 py-3 rounded-full hover:bg-[#7320DD]/80 transition">
+          <p className="bg-[#1D1D1D] text-lg font-semibold px-6 py-3 rounded-full hover:bg-[#7320DD]/80 transition">
             Get SnapStream for Free
           </p>
         </Link>

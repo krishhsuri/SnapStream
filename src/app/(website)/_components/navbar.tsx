@@ -9,7 +9,7 @@ type Props = {}
 const LandingPageNavBar = (props: Props) => {
   return (
     <div className="fixed top-0 w-full flex justify-between items-center py-4 px-6 bg-background dark:bg-background-dark shadow-md z-50">
-      <div className="text-3xl font-semibold flex items-center gap-x-3 text-primary-foreground brightness-200">
+      <div className="text-3xl font-semibold flex items-center gap-x-3 ">
         
         <Image
           alt="SnapStream logo"
@@ -17,25 +17,27 @@ const LandingPageNavBar = (props: Props) => {
           width={40}
           height={40}
         />
-        <span className="text-3xl font-extrabold text-primary-foreground">SnapStream</span>
+        <span className="text-3xl font-light text-white">SnapStream</span>
       </div>
       <div className="hidden lg:flex gap-x-10 items-center text-lg">
         <Link
           href="/"
-          className="text-primary-foreground hover:text-primary transition-colors duration-300 font-bold brightness-200"
+          className="text-primary-foreground hover:text-primary px-3 transition-colors duration-300 font-bold brightness-200"
         >
           Home
         </Link>
         <Link
-          href="/"
-          className="text-primary-foreground hover:text-primary transition-colors duration-300 font-bold brightness-200"
+          href="/pricing"
+          className="text-primary-foreground hover:text-primary px-3 transition-colors duration-300 font-bold brightness-200"
         >
           Pricing
         </Link>
         <Link
-          href="/"
-          className="text-primary-foreground hover:text-primary transition-colors duration-300 font-bold brightness-200"
+          href="/contact"
+          
+          className="text-primary-foreground hover:text-primary px-3 transition-colors duration-300 font-bold brightness-200"
         >
+          
           Contact
         </Link>
       </div>
